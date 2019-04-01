@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-
-import { Footer } from '@windingtree/wt-ui-react';
+import { Footer, Form } from '@windingtree/wt-ui-react';
+import Header from './components/Header';
+import indices from './wt-indices';
 
 class App extends Component {
   state = {
@@ -9,23 +10,33 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    this.onWTIndexChange = this.onWTIndexChange.bind(this);
+    this.onIndexChange = this.onIndexChange.bind(this);
   }
 
-  onWTIndexChange (e) {
-    // TODO e.target.value
+  onIndexChange (e) {
+    const selectedIndex = indices.find((i) => i.address === e.target.value);
+    console.log(selectedIndex);
   }
+
 
   render() {
     const { index } = this.state;
-    // TODO list wt indexes
-    const options = [].map((l) => {
-      return (<option key={l.name} value={l.link}>{l.name}</option>);
+    const options = indices.map((l) => {
+      return (<option key={l.name} value={l.address}>{l.name}</option>);
     });
     return (
       <div>
-        <div className="mt-2">
-          {! index && (<div class="alert alert-info">Select Winding Tree index first.</div>)}
+        <Header />
+        <div className="container">
+          <Form.Group controlId="index">
+            <Form.Label>Index</Form.Label>
+            <Form.Control as="select" onChange={this.onIndexChange}>
+              {options}
+            </Form.Control>
+          </Form.Group>
+          <div className="mt-2">
+            {! index && (<div className="alert alert-info">Select Winding Tree index first.</div>)}
+          </div>
         </div>
         <Footer copyrightHref="https://windingtree.com" copyrightText="Winding Tree">
           <div className="col-6 col-md-3">
