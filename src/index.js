@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 
-import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import '@windingtree/wt-ui/dist/styles.css';
 
 ReactDOM.render(<App />, document.getElementById('root'));
