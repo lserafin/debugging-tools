@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Footer, Form } from '@windingtree/wt-ui-react';
 import Header from './components/Header';
+import IndexViewer from './components/IndexViewer';
 import indices from './wt-indices';
 
 class App extends Component {
@@ -13,11 +14,12 @@ class App extends Component {
     this.onIndexChange = this.onIndexChange.bind(this);
   }
 
-  onIndexChange (e) {
+  async onIndexChange (e) {
     const selectedIndex = indices.find((i) => i.address === e.target.value);
-    console.log(selectedIndex);
+    this.setState({
+      index: selectedIndex
+    });
   }
-
 
   render() {
     const { index } = this.state;
@@ -36,6 +38,7 @@ class App extends Component {
           </Form.Group>
           <div className="mt-2">
             {! index && (<div className="alert alert-info">Select Winding Tree index first.</div>)}
+            {index && <IndexViewer index={index} />}
           </div>
         </div>
         <Footer copyrightHref="https://windingtree.com" copyrightText="Winding Tree">
