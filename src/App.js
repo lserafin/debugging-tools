@@ -6,7 +6,7 @@ import indices from './wt-indices';
 
 class App extends Component {
   state = {
-    index: null,
+    index: indices.length && indices[0],
   };
 
   constructor(props) {
