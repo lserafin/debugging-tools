@@ -11,7 +11,11 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "author": "Jirka Chadima <chadima.jiri@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/windingtree/wt-index-debugger.git"
+  },
+  "author": "Winding Tree developers <dev@windingtree.com>",
   "license": "MIT",
   "dependencies": {
     "@windingtree/wt-ui": "^1.5.1",
