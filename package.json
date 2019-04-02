@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "lint": "eslint src --ext jsx,js",
-    "start": "BROWSER=none react-scripts start",
+    "start": "BROWSER=none REACT_APP_INFURA_PROJECT_ID=def1927234dd483c84e21d35d0e36a95 react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
@@ -19,6 +19,8 @@
   "author": "Winding Tree developers <dev@windingtree.com>",
   "license": "MIT",
   "dependencies": {
+    "@windingtree/off-chain-adapter-http": "^3.0.0",
+    "@windingtree/off-chain-adapter-swarm": "^4.0.0",
     "@windingtree/wt-js-libs": "^0.10.0",
     "@windingtree/wt-ui": "^1.5.1",
     "@windingtree/wt-ui-react": "^0.14.0",

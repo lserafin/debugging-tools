@@ -1,32 +1,35 @@
 import React from 'react';
 import { WtJsLibs } from '@windingtree/wt-js-libs';
-import HotelIndexViewer from './HotelIndexViewer';
-import AirlineIndexViewer from './AirlineIndexViewer';
+import SwarmAdapter from '@windingtree/off-chain-adapter-swarm';
+import HttpAdapter from '@windingtree/off-chain-adapter-http';
+
+import IndexView from './IndexView';
 
 
 export default ({ index }) => {
   const libs = WtJsLibs.createInstance({
     segment: index.segment,
     dataModelOptions: {
-      provider: `https://${index.network}.infura.io/`,
+      provider: `https://${index.network}.infura.io/v3/${process.env.REACT_APP_INFURA_PROJECT_ID}`,
+    },
+    offChainDataOptions: {
+      adapters: {
+        'bzz-raw': {
+          options: {
+            swarmProviderUrl: 'https://swarm.windingtree.com',
+          },
+          create: (options) => {
+            return new SwarmAdapter(options);
+          },
+        },
+        'https': {
+          options: {},
+          create: (options) => {
+            return new HttpAdapter(options);
+          },
+        },
+      },
     },
   });
-  const instance = libs.getWTIndex(index.address);
-
-  if (index.segment === 'hotels') {
-    return <HotelIndexViewer instance={instance} network={index.network} />;
-  } if (index.segment === 'airlines') {
-    return <AirlineIndexViewer instance={instance} network={index.network} />;
-  }
-  return (
-    <div>
-      <h1>
-Unknown index segment
-        {index.segment}
-        {' '}
-on
-        {index.address}
-      </h1>
-    </div>
-  );
+  return <IndexView instance={libs.getWTIndex(index.address)} network={index.network} readApi={index.readApi} segment={index.segment} />;
 };
