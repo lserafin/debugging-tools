@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import { Container, Row, Col } from '@windingtree/wt-ui-react';
+import { Container, Row, Col, Button } from '@windingtree/wt-ui-react';
 import Loader from '../Loader';
 import Item from './Item';
 import EtherscanLink from '../EtherscanLink';
 
+const PAGE_SIZE = 5;
 const segments = {
   hotels: {
     getAll: 'getAllHotels',
@@ -19,13 +20,18 @@ const segments = {
   }
 }
 
-
 class IndexViewer extends Component {
   state = {
     config: undefined,
     items: undefined,
     lifTokenAddress: undefined,
+    nextItemPage: 1,
   };
+
+  constructor(props) {
+    super(props);
+    this.getItems = this.getItems.bind(this);
+  }
 
   async componentDidMount() {
     const { instance, segment } = this.props;
@@ -55,15 +61,21 @@ class IndexViewer extends Component {
     }
   }
 
+  getItems() {
+    const { nextItemPage, items, network, config } = this.state;
+    const { readApi } = this.props;
+    return items.slice(0, nextItemPage * PAGE_SIZE).map((i) => {
+      return <Item item={i} key={i.address} network={network} readApi={`${readApi}/${config.readApiSuffix}`} />
+    })
+  }
+
   render() {
-    const { instance, network, readApi } = this.props;
-    const { items, lifTokenAddress, config } = this.state;
+    const { instance, network } = this.props;
+    const { items, lifTokenAddress, config, nextItemPage } = this.state;
     if (!items) {
       return <Loader label={`Loading items from ${instance.address}`} block={128} />
     }
-    const itemElements = items.map((i) => {
-      return <Item item={i} key={i.address} network={network} readApi={`${readApi}/${config.readApiSuffix}`} />
-    })
+    const itemElements = this.getItems();
     return <Container>
       <Row>
         <Col>
@@ -84,6 +96,20 @@ class IndexViewer extends Component {
         </Col>
       </Row>
       {itemElements}
+      {nextItemPage * PAGE_SIZE < items.length &&
+        <Row>
+          <Col>
+          <p className="text-center mb-2">
+            <Button onClick={() => {
+              const { nextItemPage } = this.state;
+              this.setState({
+                nextItemPage: nextItemPage + 1
+              });
+            }}>Load more</Button>
+          </p>
+        </Col>
+      </Row>
+    }
     </Container>
   }
 }
