@@ -29,9 +29,8 @@ class App extends Component {
     return (
       <div>
         <Header />
-        <div className="container">
+        <div className="container mt-1">
           <Form.Group controlId="index">
-            <Form.Label>Index</Form.Label>
             <Form.Control as="select" onChange={this.onIndexChange}>
               {options}
             </Form.Control>

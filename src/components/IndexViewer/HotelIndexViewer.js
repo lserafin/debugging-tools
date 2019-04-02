@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Container, Row, Col } from '@windingtree/wt-ui-react';
 import Loader from '../Loader';
-import HotelItem from './HotelItem';
+import HotelItem from './Item';
 import EtherscanLink from '../EtherscanLink';
 
 class HotelIndexViewer extends Component {

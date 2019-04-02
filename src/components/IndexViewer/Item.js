@@ -3,7 +3,7 @@ import { Row, Col } from '@windingtree/wt-ui-react';
 import Loader from '../Loader';
 import EtherscanLink from '../EtherscanLink';
 
-class HotelItem extends Component {
+class Item extends Component {
   state = {
     resolved: false,
     address: undefined,
@@ -59,4 +59,4 @@ class HotelItem extends Component {
   }
 }
 
-export default HotelItem;
+export default Item;
