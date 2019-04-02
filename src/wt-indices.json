@@ -22,5 +22,11 @@
     "address": "0xC3f87605886A190a3802d2328EEA496FCd413C2e",
     "network": "ropsten",
     "segment": "airlines"
+  },
+  {
+    "name": "Playground - Hotel index 2018/12/19",
+    "address": "0xfb562057d613175c850df65e435bb0824b65d319",
+    "network": "ropsten",
+    "segment": "hotels"
   }
 ]
