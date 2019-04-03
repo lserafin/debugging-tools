@@ -2,6 +2,43 @@ import React, {Component} from 'react';
 import { Row, Col } from '@windingtree/wt-ui-react';
 import Loader from '../Loader';
 import EtherscanLink from '../EtherscanLink';
+import { SWARM_GATEWAY } from '../../constants';
+
+
+class OffChainLink extends Component {
+  state = {
+    field: undefined,
+  };
+
+  async componentWillMount() {
+    const { index, fieldName } = this.props;
+    const field = await index[fieldName] || index[fieldName];
+    this.setState({
+      field
+    })
+  }
+
+  render() {
+    const { field } = this.state;
+    const { fieldName } = this.props;
+    if ((!field || !field.ref) && fieldName.indexOf('Uri') !== fieldName.length - 3) {
+      return <span>{field}</span>;
+    }
+
+    let link = field;
+    if (field && field.ref && field.ref.indexOf('bzz-raw:') === 0) {
+      link = `${SWARM_GATEWAY}/${field.ref}`;
+    } else if (field && field.ref) {
+      link = field.ref;
+    }
+    return (<a
+      href={link}
+      target="_blank"
+      rel="noopener noreferrer"
+    >{(field && field.ref) || field}</a>);
+  }
+
+}
 
 class Item extends Component {
   state = {
@@ -51,6 +88,12 @@ class Item extends Component {
         </Col>
       </Row>
     }
+    let dataIndexMembers = [];
+    if (resolvedDataIndex && dataIndex) {
+      dataIndexMembers = Object.keys(dataIndex).sort((a, b) => a > b ? 1 : -1).map((k) => {
+        return <li key={k}><strong>{k}</strong>: <OffChainLink index={dataIndex} fieldName={k} /></li>;
+      })
+    }
 
     return <Row>
       <Col className="mb-1">
@@ -69,7 +112,7 @@ class Item extends Component {
             </tr>
             <tr>
               <th>Data URI</th>
-              <td>{dataUri}</td>
+              <td><OffChainLink index={{uri: {ref: dataUri}}} fieldName='uri' /></td>
             </tr>
             <tr>
               <th>Data URI contents</th>
@@ -77,11 +120,7 @@ class Item extends Component {
                 {! resolvedDataIndex && <Loader />}
                 {resolvedDataIndex && dataIndexError && <p className="alert alert-error">{dataIndexError}</p>}
                 {resolvedDataIndex && dataIndex && <ul>
-                  <li><strong>dataFormatVersion</strong>: {dataIndex.dataFormatVersion}</li>
-                  <li><strong>defaultLocale</strong>: {dataIndex.defaultLocale}</li>
-                  <li><strong>descriptionUri</strong>: {dataIndex.descriptionUri && dataIndex.descriptionUri.ref}</li>
-                  <li><strong>availabilityUri</strong>: {dataIndex.availabilityUri && dataIndex.availabilityUri.ref}</li>
-                  <li><strong>ratePlansUri</strong>: {dataIndex.ratePlansUri && dataIndex.ratePlansUri.ref}</li>
+                  {dataIndexMembers}
                 </ul>}
               </td>
             </tr>

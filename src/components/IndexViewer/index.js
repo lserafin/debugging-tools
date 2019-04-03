@@ -2,7 +2,7 @@ import React from 'react';
 import { WtJsLibs } from '@windingtree/wt-js-libs';
 import SwarmAdapter from '@windingtree/off-chain-adapter-swarm';
 import HttpAdapter from '@windingtree/off-chain-adapter-http';
-
+import { SWARM_GATEWAY } from '../../constants';
 import IndexView from './IndexView';
 
 
@@ -16,7 +16,7 @@ export default ({ index }) => {
       adapters: {
         'bzz-raw': {
           options: {
-            swarmProviderUrl: 'https://swarm.windingtree.com',
+            swarmProviderUrl: SWARM_GATEWAY,
           },
           create: (options) => {
             return new SwarmAdapter(options);
