@@ -8,34 +8,49 @@ import { SWARM_GATEWAY } from '../../constants';
 class OffChainLink extends Component {
   state = {
     field: undefined,
+    link: undefined,
+    status: undefined,
   };
 
   async componentWillMount() {
     const { index, fieldName } = this.props;
     const field = await index[fieldName] || index[fieldName];
-    this.setState({
-      field
-    })
-  }
-
-  render() {
-    const { field } = this.state;
-    const { fieldName } = this.props;
-    if ((!field || !field.ref) && fieldName.indexOf('Uri') !== fieldName.length - 3) {
-      return <span>{field}</span>;
-    }
-
     let link = field;
     if (field && field.ref && field.ref.indexOf('bzz-raw:') === 0) {
       link = `${SWARM_GATEWAY}/${field.ref}`;
     } else if (field && field.ref) {
       link = field.ref;
     }
-    return (<a
-      href={link}
-      target="_blank"
-      rel="noopener noreferrer"
-    >{(field && field.ref) || field}</a>);
+    this.setState({
+      field,
+      link,
+    });
+    fetch(link)
+      .then(() => {
+        this.setState({status: true})
+      })
+      .catch(() => {
+        this.setState({status: false})
+      })
+  }
+
+  render() {
+    const { field, link, status } = this.state;
+    const { fieldName } = this.props;
+    if ((!field || !field.ref) && fieldName.indexOf('Uri') !== fieldName.length - 3) {
+      return <span>{field}</span>;
+    }
+
+    return (<span>
+      <a
+        href={link}
+        target="_blank"
+        rel="noopener noreferrer"
+      >{(field && field.ref) || field}</a>
+      {status === undefined && <Loader />}
+      {status === true && <i className="mdi mdi-24px mdi-check"  style={{color: 'green'}} />}
+      {status === false && <i className="mdi mdi-24px mdi-exclamation" style={{color: 'red'}} />}
+    </span>);
   }
 
 }
@@ -69,7 +84,7 @@ class Item extends Component {
           resolvedDataIndex: true,
           dataIndexError: undefined,
         })
-      // TODO this doesn't work
+      // TODO this doesn't work, but why - 524s are not caught
       } catch (e) {
         this.setState({
           dataIndexError: e.toString()

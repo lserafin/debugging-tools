@@ -92,7 +92,7 @@ class IndexViewer extends Component {
               </tr>
             </tbody>
           </table>
-          <h3>{config.plural}</h3>
+          <h3>{config.plural.substr(0, 1).toUpperCase()}{config.plural.substr(1)}</h3>
         </Col>
       </Row>
       {itemElements}
