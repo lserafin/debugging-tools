@@ -15,7 +15,7 @@
     "type": "git",
     "url": "git+https://github.com/windingtree/wt-index-debugger.git"
   },
-  "homepage": "https://windingtree.github.io/wt-index-debugger/",
+  "homepage": "https://index-debugger.windingtree.com",
   "author": "Winding Tree developers <dev@windingtree.com>",
   "license": "MIT",
   "dependencies": {
