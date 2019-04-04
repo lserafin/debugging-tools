@@ -16,22 +16,27 @@ class OffChainLink extends Component {
     const { index, fieldName } = this.props;
     const field = await index[fieldName] || index[fieldName];
     let link = field;
+    let touchLink = false;
     if (field && field.ref && field.ref.indexOf('bzz-raw:') === 0) {
       link = `${SWARM_GATEWAY}/${field.ref}`;
+      touchLink = true;
     } else if (field && field.ref) {
       link = field.ref;
+      touchLink = true;
     }
     this.setState({
       field,
       link,
     });
-    fetch(link)
-      .then(() => {
-        this.setState({status: true})
-      })
-      .catch(() => {
-        this.setState({status: false})
-      })
+    if (touchLink) {
+      fetch(link)
+        .then(() => {
+          this.setState({status: true})
+        })
+        .catch(() => {
+          this.setState({status: false})
+        });
+    }
   }
 
   render() {
