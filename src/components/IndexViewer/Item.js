@@ -84,10 +84,10 @@ class Item extends Component {
           resolvedDataIndex: true,
           dataIndexError: undefined,
         })
-      // TODO this doesn't work, but why - 524s are not caught
       } catch (e) {
         this.setState({
-          dataIndexError: e.toString()
+          dataIndexError: e.toString(),
+          resolvedDataIndex: true,
         })
       }
     }
@@ -133,7 +133,7 @@ class Item extends Component {
               <th>Data URI contents</th>
               <td>
                 {! resolvedDataIndex && <Loader />}
-                {resolvedDataIndex && dataIndexError && <p className="alert alert-error">{dataIndexError}</p>}
+                {resolvedDataIndex && dataIndexError && <p className="alert alert-danger">{dataIndexError}</p>}
                 {resolvedDataIndex && dataIndex && <ul>
                   {dataIndexMembers}
                 </ul>}
