@@ -3,28 +3,24 @@
     "name": "Playground - Hotel index",
     "address": "0xB309875d8b24D522Ea0Ac57903c8A0b0C93C414A",
     "network": "ropsten",
-    "readApi": "https://playground-api.windingtree.com",
     "segment": "hotels"
   },
   {
     "name": "Playground - Airline index",
     "address": "0x918154a7b2f37ca03e0D05283B5d0d781812DEB6",
     "network": "ropsten",
-    "readApi": "https://playground-api.windingtree.com",
     "segment": "airlines"
   },
   {
     "name": "Demo - Hotel index",
     "address": "0xad98e1eCcB4Db6c4BB5a03ee9989a583F0821473",
     "network": "ropsten",
-    "readApi": "https://demo-api.windingtree.com",
     "segment": "hotels"
   },
   {
     "name": "Demo - Airline index",
     "address": "0xC3f87605886A190a3802d2328EEA496FCd413C2e",
     "network": "ropsten",
-    "readApi": "https://demo-api.windingtree.com",
     "segment": "airlines"
   },
   {

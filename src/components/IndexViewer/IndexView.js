@@ -65,7 +65,8 @@ class IndexViewer extends Component {
     const { nextItemPage, items, config } = this.state;
     const { readApi, network } = this.props;
     return items.slice(0, nextItemPage * PAGE_SIZE).map((i) => {
-      return <Item item={i} key={i.address} network={network} readApi={`${readApi}/${config.readApiSuffix}`} />
+      const readApiUrl = readApi ? `${readApi}/${config.readApiSuffix}` : undefined;
+      return <Item item={i} key={i.address} network={network} readApi={readApiUrl} />
     })
   }
 

@@ -120,7 +120,7 @@ class Item extends Component {
         <h4>
           {address}
           <span className="badge badge-pill badge-primary ml-1"><EtherscanLink network={network} address={address}>Etherscan</EtherscanLink></span>
-          <span className="badge badge-pill badge-primary ml-1"><a href={`${readApi}/${address}`} target="_blank" rel="noopener noreferrer">Read API</a></span>
+          {readApi && <span className="badge badge-pill badge-primary ml-1"><a href={`${readApi}/${address}`} target="_blank" rel="noopener noreferrer">Read API</a></span>}
         </h4>
         <table className="table table-striped table-bordered">
           <tbody>
