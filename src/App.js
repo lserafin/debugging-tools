@@ -24,7 +24,7 @@ class App extends Component {
   render() {
     const { index } = this.state;
     const options = indices.map((l) => {
-      return (<option key={l.name} value={l.address}>{l.name}</option>);
+      return (<option key={l.name} value={l.address}>{l.name} ({l.address})</option>);
     });
     return (
       <div>
