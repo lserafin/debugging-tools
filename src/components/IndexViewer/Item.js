@@ -23,6 +23,10 @@ class OffChainLink extends Component {
     } else if (field && field.ref) {
       link = field.ref;
       touchLink = true;
+    } else {
+      if (link.startsWith('https://')) {
+        touchLink = true;
+      }
     }
     this.setState({
       field,
@@ -31,10 +35,10 @@ class OffChainLink extends Component {
     if (touchLink) {
       fetch(link)
         .then(() => {
-          this.setState({status: true})
+          this.setState({status: true});
         })
         .catch(() => {
-          this.setState({status: false})
+          this.setState({status: false});
         });
     }
   }
