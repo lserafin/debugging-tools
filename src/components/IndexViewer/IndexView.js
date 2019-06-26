@@ -7,18 +7,16 @@ import EtherscanLink from '../EtherscanLink';
 const PAGE_SIZE = 5;
 const segments = {
   hotels: {
-    getAll: 'getAllHotels',
     readApiSuffix: 'hotels',
     singular: 'hotel',
     plural: 'hotels',
   },
   airlines: {
-    getAll: 'getAllAirlines',
     readApiSuffix: 'airlines',
     singular: 'airline',
     plural: 'airlines',
   }
-}
+};
 
 class IndexViewer extends Component {
   state = {
@@ -39,8 +37,8 @@ class IndexViewer extends Component {
       config: segments[segment]
     });
     this.setState({
-      items: await instance[segments[segment].getAll](),
-      lifTokenAddress: await ((await instance._getDeployedIndex()).methods.LifToken().call()),
+      items: await instance.getOrganizations(),
+      lifTokenAddress: await ((await instance._getDeployedDirectory()).methods.getLifToken().call()),
     });
   }
 
@@ -55,8 +53,8 @@ class IndexViewer extends Component {
         lifTokenAddress: undefined,
       });
       this.setState({
-        items: await instance[segments[segment].getAll](),
-        lifTokenAddress: await ((await instance._getDeployedIndex()).methods.LifToken().call()),
+        items: await instance.getOrganizations(),
+        lifTokenAddress: await ((await instance._getDeployedDirectory()).methods.getLifToken().call()),
       });
     }
   }

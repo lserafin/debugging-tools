@@ -23,10 +23,8 @@ class OffChainLink extends Component {
     } else if (field && field.ref) {
       link = field.ref;
       touchLink = true;
-    } else {
-      if (link.startsWith('https://')) {
-        touchLink = true;
-      }
+    } else if (link.startsWith && link.startsWith('https://')) {
+      touchLink = true;
     }
     this.setState({
       field,
@@ -47,7 +45,14 @@ class OffChainLink extends Component {
     const { field, link, status } = this.state;
     const { fieldName } = this.props;
     if ((!field || !field.ref) && fieldName.indexOf('Uri') !== fieldName.length - 3) {
-      return <span>{field}</span>;
+      if (typeof field === 'object') {
+        const subFields = Object.keys(field).sort((a, b) => a > b ? 1 : -1).map((k) => {
+          return <li key={k}><strong>{k}</strong>: <OffChainLink index={field} fieldName={k} /></li>;
+        });
+        return <ul>{subFields}</ul>;
+      } else {
+        return <span>{field}</span>;
+      }
     }
 
     return (<span>
@@ -68,35 +73,35 @@ class Item extends Component {
   state = {
     resolved: false,
     address: undefined,
-    manager: undefined,
-    dataUri: undefined,
-    resolvedDataIndex: false,
-    dataIndex: undefined,
-    dataIndexError: undefined
+    owner: undefined,
+    orgJsonUri: undefined,
+    resolvedOrgJson: false,
+    orgJson: undefined,
+    orgJsonError: undefined
   };
 
   async componentWillMount() {
     const { item } = this.props;
-    const { resolved, resolvedDataIndex } = this.state;
+    const { resolved, resolvedOrgJson } = this.state;
     if (!resolved) {
       this.setState({
         address: await item.address,
-        manager: await item.manager,
-        dataUri: await item.dataUri,
+        owner: await item.owner,
+        orgJsonUri: await item.orgJsonUri,
         resolved: true,
       });
     }
-    if (!resolvedDataIndex) {
+    if (!resolvedOrgJson) {
       try {
         this.setState({
-          dataIndex: await (await item.dataIndex).contents,
-          resolvedDataIndex: true,
-          dataIndexError: undefined,
+          orgJson: await (await item.orgJson).contents,
+          resolvedOrgJson: true,
+          orgJsonError: undefined,
         })
       } catch (e) {
         this.setState({
-          dataIndexError: e.toString(),
-          resolvedDataIndex: true,
+          orgJsonError: e.toString(),
+          resolvedOrgJson: true,
         })
       }
     }
@@ -104,7 +109,7 @@ class Item extends Component {
 
   render() {
     const { item, network, readApi } = this.props;
-    const { resolved, address, manager, dataUri, resolvedDataIndex, dataIndex, dataIndexError } = this.state;
+    const { resolved, address, owner, orgJsonUri, resolvedOrgJson, orgJson, orgJsonError } = this.state;
     if (!resolved) {
       return <Row>
         <Col>
@@ -112,10 +117,10 @@ class Item extends Component {
         </Col>
       </Row>
     }
-    let dataIndexMembers = [];
-    if (resolvedDataIndex && dataIndex) {
-      dataIndexMembers = Object.keys(dataIndex).sort((a, b) => a > b ? 1 : -1).map((k) => {
-        return <li key={k}><strong>{k}</strong>: <OffChainLink index={dataIndex} fieldName={k} /></li>;
+    let orgJsonMembers = [];
+    if (resolvedOrgJson && orgJson) {
+      orgJsonMembers = Object.keys(orgJson).sort((a, b) => a > b ? 1 : -1).map((k) => {
+        return <li key={k}><strong>{k}</strong>: <OffChainLink index={orgJson} fieldName={k} /></li>;
       })
     }
 
@@ -129,22 +134,22 @@ class Item extends Component {
         <table className="table table-striped table-bordered">
           <tbody>
             <tr>
-              <th>Manager</th>
+              <th>Owner</th>
               <td>
-                <EtherscanLink network={network} address={manager}>{manager}</EtherscanLink>
+                <EtherscanLink network={network} address={owner}>{owner}</EtherscanLink>
               </td>
             </tr>
             <tr>
-              <th>Data URI</th>
-              <td><OffChainLink index={{uri: {ref: dataUri}}} fieldName='uri' /></td>
+              <th>ORG.JSON URI</th>
+              <td><OffChainLink index={{uri: {ref: orgJsonUri}}} fieldName='uri' /></td>
             </tr>
             <tr>
-              <th>Data URI contents</th>
+              <th>ORG.JSON contents</th>
               <td>
-                {! resolvedDataIndex && <Loader />}
-                {resolvedDataIndex && dataIndexError && <p className="alert alert-danger">{dataIndexError}</p>}
-                {resolvedDataIndex && dataIndex && <ul>
-                  {dataIndexMembers}
+                {! resolvedOrgJson && <Loader />}
+                {resolvedOrgJson && orgJsonError && <p className="alert alert-danger">{orgJsonError}</p>}
+                {resolvedOrgJson && orgJson && <ul>
+                  {orgJsonMembers}
                 </ul>}
               </td>
             </tr>

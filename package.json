@@ -21,7 +21,7 @@
   "dependencies": {
     "@windingtree/off-chain-adapter-http": "^3.0.1",
     "@windingtree/off-chain-adapter-swarm": "^4.0.1",
-    "@windingtree/wt-js-libs": "^0.10.0",
+    "@windingtree/wt-js-libs": "^0.13.0",
     "@windingtree/wt-ui": "^1.5.1",
     "@windingtree/wt-ui-react": "^0.14.0",
     "react": "^16.6.3",
