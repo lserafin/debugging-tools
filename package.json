@@ -24,6 +24,8 @@
     "@windingtree/wt-js-libs": "^0.13.0",
     "@windingtree/wt-ui": "^1.5.1",
     "@windingtree/wt-ui-react": "^0.14.0",
+    "eth": "^4.0.1",
+    "ethjs": "^0.4.0",
     "moment": "^2.24.0",
     "react": "^16.6.3",
     "react-clipboard.js": "^2.0.13",
