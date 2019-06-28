@@ -1,13 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Header = () => (
   <div id="app-header">
     <nav className="navbar navbar-expand-lg navbar-light" id="navbar">
       <div className="container">
-        <a className="navbar-brand mr-2" href="/">Winding Tree</a>
-        <a className="nav-link" href="/debugger">Debugger</a>
-        <a className="nav-link" href="/guarantee-generator">Guarantee Generator</a>
-        <a className="nav-link" href="/contract-caller">Contract Caller</a>
+        <Link className="navbar-brand mr-2" to={'/'}>Winding Tree</Link>
+        <Link className="nav-link" to={'/debugger'}>Debugger</Link>
+        <Link className="nav-link" to={'/guarantee-generator'}>Guarantee Generator</Link>
+        <Link className="nav-link" to={'/contract-caller'}>Contract Caller</Link>
       </div>
     </nav>
   </div>
