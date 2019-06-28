@@ -23,6 +23,18 @@ class Debugger extends Component {
     });
   }
 
+  componentWillMount () {
+    const params = this.props.match.params;
+    if (params.organizationAddress) {
+      this.setState({
+        ethAddress: params.organizationAddress,
+      });
+    }
+    if (params.indexAddress) {
+      this.onIndexChange({target: {value: params.indexAddress}});
+    }
+  }
+
   render() {
     const { index, ethAddress } = this.state;
     const options = indices.map((l) => {
@@ -33,7 +45,7 @@ class Debugger extends Component {
         <Header />
         <div className="container mt-1">
           <Form.Group controlId="index">
-            <Form.Control as="select" onChange={this.onIndexChange}>
+            <Form.Control as="select" onChange={this.onIndexChange} defaultValue={index.address}>
               {options}
             </Form.Control>
             <Form.Control type="text"
