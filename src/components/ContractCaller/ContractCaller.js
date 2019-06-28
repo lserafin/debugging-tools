@@ -127,7 +127,7 @@ class ContractCaller extends React.Component {
     const { ethAddress, abi, parsedAbi, abiOK, lastResult, lastError, selectedMethod, contractAbis } = this.state;
 
     return (
-      <div>
+      <div className="caller">
         <label>Address</label>
         <Form.Control type="text"
                       placeholder="0x..."
