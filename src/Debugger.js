@@ -8,6 +8,7 @@ import indices from './wt-indices';
 class Debugger extends Component {
   state = {
     index: indices.length && indices[0],
+    ethAddress: '',
   };
 
   constructor(props) {
@@ -23,7 +24,7 @@ class Debugger extends Component {
   }
 
   render() {
-    const { index } = this.state;
+    const { index, ethAddress } = this.state;
     const options = indices.map((l) => {
       return (<option key={l.name} value={l.address}>{l.name} ({l.address})</option>);
     });
@@ -35,10 +36,15 @@ class Debugger extends Component {
             <Form.Control as="select" onChange={this.onIndexChange}>
               {options}
             </Form.Control>
+            <Form.Control type="text"
+                          placeholder="optionally filter by organization address"
+                          className="form-control"
+                          value={ethAddress}
+                          onChange={(e) => { this.setState({ ethAddress: e.target.value }); }}/>
           </Form.Group>
           <div className="mt-2">
             {! index && (<div className="alert alert-info">Select Winding Tree index first.</div>)}
-            {index && <IndexViewer index={index} />}
+            {index && <IndexViewer index={index} ethAddress={ethAddress} />}
           </div>
         </div>
         <Footer />

@@ -70,6 +70,7 @@ class OffChainLink extends Component {
 }
 
 class Item extends Component {
+  _isMounted = false;
   state = {
     resolved: false,
     address: undefined,
@@ -80,31 +81,47 @@ class Item extends Component {
     orgJsonError: undefined
   };
 
+  async componentDidMount() {
+    this._isMounted = true;
+  }
+
   async componentWillMount() {
     const { item } = this.props;
     const { resolved, resolvedOrgJson } = this.state;
     if (!resolved) {
-      this.setState({
+      const newState = {
         address: await item.address,
         owner: await item.owner,
         orgJsonUri: await item.orgJsonUri,
         resolved: true,
-      });
+      };
+      if (this._isMounted) {
+        this.setState(newState);
+      }
     }
     if (!resolvedOrgJson) {
       try {
-        this.setState({
-          orgJson: await (await item.orgJson).contents,
-          resolvedOrgJson: true,
-          orgJsonError: undefined,
-        })
+        const orgJson = await (await item.orgJson).contents;
+        if (this._isMounted) {
+          this.setState({
+            orgJson: orgJson,
+            resolvedOrgJson: true,
+            orgJsonError: undefined,
+          })
+        }
       } catch (e) {
-        this.setState({
-          orgJsonError: e.toString(),
-          resolvedOrgJson: true,
-        })
+        if (this._isMounted) {
+          this.setState({
+            orgJsonError: e.toString(),
+            resolvedOrgJson: true,
+          })
+        }
       }
     }
+  }
+
+  async componentWillUnmount () {
+    this._isMounted = false;
   }
 
   render() {
