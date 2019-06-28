@@ -6,10 +6,9 @@ import { SWARM_GATEWAY } from '../../constants';
 import IndexView from './IndexView';
 
 
-export default ({ index }) => {
+export default ({ index, ethAddress }) => {
   const libs = WtJsLibs.createInstance({
-    segment: index.segment,
-    dataModelOptions: {
+    onChainDataOptions: {
       provider: `https://${index.network}.infura.io/v3/${process.env.REACT_APP_INFURA_PROJECT_ID}`,
     },
     offChainDataOptions: {
@@ -31,5 +30,5 @@ export default ({ index }) => {
       },
     },
   });
-  return <IndexView instance={libs.getWTIndex(index.address)} network={index.network} readApi={index.readApi} segment={index.segment} />;
+  return <IndexView instance={libs.getDirectory(index.segment, index.address)} network={index.network} readApi={index.readApi} segment={index.segment} ethAddress={ethAddress} />;
 };

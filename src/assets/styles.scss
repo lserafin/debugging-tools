@@ -1,3 +1,21 @@
 select.form-control {
   height: 5rem !important;
 }
+
+.clipboardable {
+  position: relative;
+
+  .clipboard-wrap {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    opacity: 0.9;
+    cursor: pointer;
+  }
+
+  pre {
+    background: #efefef;
+    color: #444444;
+    padding: 1em;
+  }
+}

@@ -1,0 +1,17 @@
+.caller {
+  margin-bottom: 150px;
+}
+
+.caller .alert {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+}
+
+.caller .card {
+  max-width: 600px;
+}
+
+.caller h3 small {
+  margin-left: 30px;
+}
