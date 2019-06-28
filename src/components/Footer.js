@@ -39,7 +39,7 @@ const Footer = () => (
               <dd>
                 <nav className="nav flex-column small">
                   <a
-                    href="https://github.com/windingtree/wt-guarantee-generator"
+                    href="https://github.com/windingtree/debugging-tools"
                     className="nav-link px-0 text-white text--alpha-inverse"
                   >
                     Source code
