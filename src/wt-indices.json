@@ -1,16 +1,16 @@
 [
   {
-    "name": "Playground - ORG.ID Hotels Directory",
+    "name": "Playground - Lisbon Hotels Directory",
     "address": "0x8ea119a7ef0ac4c1a83a3bb6d1aa1a3afcafde8b",
     "network": "ropsten",
-    "readApi": "https://playground-api-org-id-hotels.windingtree.com",
+    "readApi": "https://lisbon-api.windingtree.com",
     "segment": "hotels"
   },
   {
-    "name": "Playground - ORG.ID Airlines Directory",
+    "name": "Playground - Lisbon Airlines Directory",
     "address": "0x6f8ab047ccc0c8128cc4d343feb618065a13d965",
     "network": "ropsten",
-    "readApi": "https://playground-api-org-id-airlines.windingtree.com",
+    "readApi": "https://lisbon-api.windingtree.com",
     "segment": "airlines"
   }
 ]
