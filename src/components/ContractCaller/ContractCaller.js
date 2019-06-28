@@ -144,7 +144,7 @@ class ContractCaller extends React.Component {
         <br />
         <MetamaskSignInGateway>
           <h3>
-            Functions
+            Functions{' '}
             <small>
               Click on a function name to set parameters and call the function.
             </small>

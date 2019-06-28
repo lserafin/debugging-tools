@@ -10,7 +10,7 @@ class Generator extends Component {
       <div>
         <Header />
         <div className="container mt-1">
-          <h2 className="text-center">Generate a guarantee for a hotel</h2>
+          <h2 className="text-center">Generate a relationship guarantee</h2>
           <MetamaskLoadedGateway>
             <SigningForm />
           </MetamaskLoadedGateway>

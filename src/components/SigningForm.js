@@ -11,7 +11,7 @@ class SigningForm extends React.Component {
   state = {
     sub: undefined,
     claimParts: {
-      hotel: "",
+      subject: "",
       guarantor: (window.ethereum && window.ethereum.selectedAddress) || "",
       expiresAt: moment()
         .add(1, "month")
@@ -38,7 +38,7 @@ class SigningForm extends React.Component {
         const msg = JSON.parse(rawMsg);
         this.setState({
           claimParts: {
-            hotel: msg.hotel,
+            subject: msg.subject,
             guarantor: msg.guarantor,
             expiresAt: moment(msg.expiresAt).format("YYYY-MM-DD HH:mm:ss")
           },
@@ -79,7 +79,7 @@ class SigningForm extends React.Component {
       [name]: value
     });
     let newErrors = {};
-    if (["hotel", "guarantor"].indexOf(name) > -1) {
+    if (["subject", "guarantor"].indexOf(name) > -1) {
       if (!Web3Utils.isAddress(value)) {
         newClaimParts = Object.assign(claimParts, {
           [name]: value
@@ -120,14 +120,14 @@ class SigningForm extends React.Component {
     const { claimParts, errors } = this.state;
     let newClaim = "";
     if (
-      claimParts.hotel &&
+      claimParts.subject &&
       claimParts.guarantor &&
       claimParts.expiresAt &&
       !Object.keys(errors).length
     ) {
       newClaim = JSON.stringify(
         Object.assign({}, claimParts, {
-          expiresAt: moment(claimParts.expiresAt).valueOf()
+          expiresAt: (moment(claimParts.expiresAt).valueOf()) / 1000
         })
       );
     }
@@ -156,20 +156,20 @@ class SigningForm extends React.Component {
             </Alert>
           )}
           <h3>1. Claim</h3>
-          <Form.Group controlId="hotel">
-            <Form.Label>Hotel's Ethereum address</Form.Label>
+          <Form.Group controlId="subject">
+            <Form.Label>ORG.ID (Subject's Ethereum address)</Form.Label>
             <Form.Control
               type="text"
               placeholder="0x..."
-              value={claimParts.hotel}
+              value={claimParts.subject}
               onChange={this.handleClaimPartChange}
-              className={errors.hotel ? `is-invalid` : ""}
+              className={errors.subject ? `is-invalid` : ""}
             />
             <Form.Text className="text-muted">
-              This is the address assigned to the hotel smart contract.
+              This is the address assigned to the 0xORG smart contract.
             </Form.Text>
-            {errors.hotel && (
-              <Form.Text className="text-danger">{errors.hotel}</Form.Text>
+            {errors.subject && (
+              <Form.Text className="text-danger">{errors.subject}</Form.Text>
             )}
           </Form.Group>
           <Form.Group controlId="guarantor">
@@ -183,7 +183,7 @@ class SigningForm extends React.Component {
             />
             <Form.Text className="text-muted">
               This address will be used when checking the trust level of the
-              hotel.
+              hotel. It should be set as an <code>associatedKey</code> in an ORG.ID.
             </Form.Text>
             {errors.guarantor && (
               <Form.Text className="text-danger">{errors.guarantor}</Form.Text>
@@ -206,7 +206,7 @@ class SigningForm extends React.Component {
             block={true}
             disabled={
               !(
-                claimParts.hotel &&
+                claimParts.subject &&
                 claimParts.guarantor &&
                 claimParts.expiresAt
               ) || Object.keys(errors).length
@@ -296,7 +296,7 @@ class SigningForm extends React.Component {
   "signature": "${signature}"
 }`}
             />
-            <p>Send the result back to the hotel manager.</p>
+            <p>Send the result back to the ORG.ID owner.</p>
           </div>
         )}
       </div>
