@@ -12,7 +12,7 @@ class SigningForm extends React.Component {
     sub: undefined,
     claimParts: {
       subject: "",
-      guarantor: (window.ethereum && window.ethereum.selectedAddress) || "",
+      guarantor: "",
       expiresAt: moment()
         .add(1, "month")
         .format("YYYY-MM-DD HH:mm:ss")
@@ -30,7 +30,6 @@ class SigningForm extends React.Component {
   }
 
   async componentWillMount() {
-    const { sub } = this.state;
     const params = qs.parse(window.location.hash);
     if (params.msg) {
       try {
@@ -53,21 +52,6 @@ class SigningForm extends React.Component {
           }
         });
       }
-    }
-    if (!sub && !params.msg) {
-      const self = this;
-      this.setState({
-        sub: window.ethereum.on("accountsChanged", function(accounts) {
-          const { claimParts } = self.state;
-          if (!claimParts.guarantor && window.ethereum.selectedAddress) {
-            self.setState({
-              claimParts: Object.assign({}, claimParts, {
-                guarantor: window.ethereum.selectedAddress
-              })
-            });
-          }
-        })
-      });
     }
   }
 
@@ -157,7 +141,7 @@ class SigningForm extends React.Component {
           )}
           <h3>1. Claim</h3>
           <Form.Group controlId="subject">
-            <Form.Label>ORG.ID (Subject's Ethereum address)</Form.Label>
+            <Form.Label>Subject (ORG.ID Ethereum address)</Form.Label>
             <Form.Control
               type="text"
               placeholder="0x..."
@@ -166,14 +150,14 @@ class SigningForm extends React.Component {
               className={errors.subject ? `is-invalid` : ""}
             />
             <Form.Text className="text-muted">
-              This is the address assigned to the 0xORG smart contract.
+              This is the address assigned to the 0xORG smart contract you are making the guarantee for.
             </Form.Text>
             {errors.subject && (
               <Form.Text className="text-danger">{errors.subject}</Form.Text>
             )}
           </Form.Group>
           <Form.Group controlId="guarantor">
-            <Form.Label>Guarantor's Ethereum address</Form.Label>
+            <Form.Label>Guarantor (ORG.ID Ethereum address)</Form.Label>
             <Form.Control
               type="text"
               placeholder="0x..."
@@ -182,8 +166,8 @@ class SigningForm extends React.Component {
               className={errors.guarantor ? `is-invalid` : ""}
             />
             <Form.Text className="text-muted">
-              This address will be used when checking the trust level of the
-              hotel. It should be set as an <code>associatedKey</code> in an ORG.ID.
+              This ORG.ID's <code>associatedKeys</code> will be checked if the account you sign this message with
+              can actually sign messages on its behalf when verifying this guarantee.
             </Form.Text>
             {errors.guarantor && (
               <Form.Text className="text-danger">{errors.guarantor}</Form.Text>
@@ -243,23 +227,18 @@ class SigningForm extends React.Component {
                 disabled={
                   signature ||
                   !claim ||
-                  !window.ethereum.selectedAddress ||
-                  window.ethereum.selectedAddress.toLowerCase() !==
-                    claimParts.guarantor.toLowerCase()
+                  !window.ethereum.selectedAddress
                 }
                 outlined={false}
                 className=""
               >
                 Create signature
               </Button>
-              {(!claim ||
-                !window.ethereum.selectedAddress ||
-                window.ethereum.selectedAddress.toLowerCase() !==
-                  claimParts.guarantor.toLowerCase()) && (
+              {(!claim || /* TODO check associatedKeys here*/
+                !window.ethereum.selectedAddress) && (
                 <p className="text-muted">
                   You can sign the claim if it is generated and if you are
-                  logged into Metamask with the same address as Guarantor's
-                  address.
+                  logged into Metamask.
                 </p>
               )}
               {signature && (
