@@ -7,3 +7,7 @@
 .caller .card {
   max-width: 600px;
 }
+
+.caller .btn {
+  text-transform: none;
+}

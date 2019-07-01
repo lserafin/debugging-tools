@@ -159,7 +159,7 @@ class ContractCaller extends React.Component {
 
               {selectedMethod === entry.name && <span className="input-group">
                 {entry.inputs.map((input) => {
-                  return <Form.Control type="text" className="form-control" placeholder={input.name} key={input.name}/>;
+                  return <Form.Control type="text" className="form-control" placeholder={`${input.name} (${input.type})`} key={input.name}/>;
                 })}
                 <Button onClick={(e) => this.callSmartContractMethod(e, entry.name)}
                         className="btn form-control btn-primary">

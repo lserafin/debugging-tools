@@ -78,7 +78,7 @@ class IndexViewer extends Component {
     return <Container>
       <Row>
         <Col>
-          <h2>Index at <EtherscanLink network={network} address={instance.address}>{instance.address}</EtherscanLink></h2>
+          <h2>Directory at <EtherscanLink network={network} address={instance.address}>{instance.address}</EtherscanLink></h2>
           <table className="table table-striped table-bordered">
             <tbody>
               <tr>
