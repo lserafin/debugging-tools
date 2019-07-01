@@ -14,7 +14,7 @@ const render = (Component) => {
   }
   renderMethod(
     <AppContainer>
-      <Router>
+      <Router basename={process.env.PUBLIC_URL}>
         <Component />
       </Router>
     </AppContainer>,
