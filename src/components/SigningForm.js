@@ -255,7 +255,7 @@ class SigningForm extends React.Component {
                   <ClipboardableSnippet
                     contents={`{
   "version": "2",
-  "address": "${claimParts.guarantor}",
+  "address": "${window.ethereum.selectedAddress}",
   "msg": "${Web3Utils.utf8ToHex(claim)}",
   "sig": "${signature}"
 }`}
