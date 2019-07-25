@@ -16,8 +16,7 @@ const DEFAULT_CONTRACT_INDEX = 3; // Entrypoint
 
 class ContractCaller extends React.Component {
   state = {
-    // WindingTreeEntrypoint Lisbon
-    ethAddress: '0x7EB7c3B768D75C740B6d08D3b3eA411B3296ceBB',
+    ethAddress: '0xa268937c2573e2AB274BF6d96e88FfE0827F0D4D',
     abi: null,
     parsedAbi: [],
     abiOK: false,

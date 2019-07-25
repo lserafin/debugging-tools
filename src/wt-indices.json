@@ -1,13 +1,19 @@
 [
   {
-    "name": "Playground - Lisbon Hotels Directory",
+    "name": "Test environment - hotels",
+    "address": "0x2c29c421d7fd7be4cc2bfb6d1a44426e43021914",
+    "network": "ropsten",
+    "segment": "hotels"
+  },
+  {
+    "name": "Lisbon Hotels Directory",
     "address": "0x8ea119a7ef0ac4c1a83a3bb6d1aa1a3afcafde8b",
     "network": "ropsten",
     "readApi": "https://lisbon-api.windingtree.com",
     "segment": "hotels"
   },
   {
-    "name": "Playground - Lisbon Airlines Directory",
+    "name": "Lisbon Airlines Directory",
     "address": "0x6f8ab047ccc0c8128cc4d343feb618065a13d965",
     "network": "ropsten",
     "readApi": "https://lisbon-api.windingtree.com",
