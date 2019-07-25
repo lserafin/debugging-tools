@@ -62,7 +62,7 @@ class OffChainLink extends Component {
         rel="noopener noreferrer"
       >{(field && field.ref) || field}</a>
       {status === undefined && <Loader />}
-      {status === true && <i className="mdi mdi-24px mdi-check"  style={{color: 'green'}} />}
+      {status === true && <i className="mdi mdi-24px mdi-check" style={{color: 'green'}} />}
       {status === false && <i className="mdi mdi-24px mdi-exclamation" style={{color: 'red'}} />}
     </span>);
   }
@@ -76,6 +76,8 @@ class Item extends Component {
     address: undefined,
     owner: undefined,
     orgJsonUri: undefined,
+    orgJsonHash: undefined,
+    orgJsonHashValid: undefined,
     resolvedOrgJson: false,
     orgJson: undefined,
     orgJsonError: undefined
@@ -93,6 +95,7 @@ class Item extends Component {
         address: await item.address,
         owner: await item.owner,
         orgJsonUri: await item.orgJsonUri,
+        orgJsonHash: await item.orgJsonHash,
         resolved: true,
       };
       if (this._isMounted) {
@@ -102,9 +105,16 @@ class Item extends Component {
     if (!resolvedOrgJson) {
       try {
         const orgJson = await (await item.orgJson).contents;
+        let isOrgJsonHashValid = false;
+        try {
+          isOrgJsonHashValid = await item.validateOrgJsonHash();
+        } catch (e) {
+          // silent pass
+        }
         if (this._isMounted) {
           this.setState({
             orgJson: orgJson,
+            orgJsonHashValid: isOrgJsonHashValid,
             resolvedOrgJson: true,
             orgJsonError: undefined,
           })
@@ -126,7 +136,8 @@ class Item extends Component {
 
   render() {
     const { item, network, readApi } = this.props;
-    const { resolved, address, owner, orgJsonUri, resolvedOrgJson, orgJson, orgJsonError } = this.state;
+    const { resolved, address, owner, orgJsonUri, orgJsonHash, orgJsonHashValid,
+      resolvedOrgJson, orgJson, orgJsonError } = this.state;
     if (!resolved) {
       return <Row>
         <Col>
@@ -159,6 +170,15 @@ class Item extends Component {
             <tr>
               <th>ORG.JSON URI</th>
               <td><OffChainLink index={{uri: {ref: orgJsonUri}}} fieldName='uri' /></td>
+            </tr>
+            <tr>
+              <th>ORG.JSON hash</th>
+              <td>
+              {orgJsonHash}
+              {orgJsonHashValid ?
+                <i className="mdi mdi-24px mdi-check" style={{color: 'green'}} /> :
+                <i className="mdi mdi-24px mdi-exclamation" style={{color: 'red'}} />
+              }</td>
             </tr>
             <tr>
               <th>ORG.JSON contents</th>
