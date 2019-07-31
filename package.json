@@ -19,10 +19,10 @@
   "author": "Winding Tree developers <dev@windingtree.com>",
   "license": "MIT",
   "dependencies": {
-    "@windingtree/off-chain-adapter-http": "^3.0.1",
-    "@windingtree/off-chain-adapter-swarm": "^4.0.1",
-    "@windingtree/wt-contracts": "^0.7.0",
-    "@windingtree/wt-js-libs": "^0.13.0",
+    "@windingtree/off-chain-adapter-http": "^4.0.0",
+    "@windingtree/off-chain-adapter-swarm": "^5.0.0",
+    "@windingtree/wt-contracts": "^0.8.1",
+    "@windingtree/wt-js-libs": "^0.16.1",
     "@windingtree/wt-ui": "^1.5.1",
     "@windingtree/wt-ui-react": "^0.14.0",
     "eth": "^4.0.1",
@@ -31,16 +31,17 @@
     "react": "^16.6.3",
     "react-clipboard.js": "^2.0.13",
     "react-dom": "^16.6.3",
-    "react-hot-loader": "^4.11.1",
+    "react-hot-loader": "^4.12.9",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "^2.1.8",
+    "react-scripts": "^3.0.1",
     "react-select": "^3.0.4",
-    "web3-eth": "1.0.0-beta.35",
-    "web3-utils": "1.0.0-beta.35"
+    "web3-eth": "^1.2.0",
+    "web3-utils": "^1.2.0"
   },
   "devDependencies": {
     "gh-pages": "^2.0.1",
-    "node-sass": "^4.11.0"
+    "node-sass": "^4.11.0",
+    "webpack": "^4.29.6"
   },
   "eslintConfig": {
     "extends": "react-app"

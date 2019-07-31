@@ -18,7 +18,7 @@ const segments = {
   }
 };
 
-class IndexViewer extends Component {
+class IndexView extends Component {
   state = {
     config: undefined,
     items: undefined,
@@ -113,4 +113,4 @@ class IndexViewer extends Component {
   }
 }
 
-export default IndexViewer;
+export default IndexView;
