@@ -7,7 +7,7 @@ import Page404 from './components/Page404';
 
 const Routes = () => (
   <Switch>
-    <Route path={['/debugger/:entrypointAddress/:organizationAddress', '/debugger/:entrypointAddress', '/debugger', '/debugger.html']} component={Debugger} />
+    <Route path={['/debugger/:entrypointAddress/:segment/:organizationAddress', '/debugger/:entrypointAddress/:segment/', '/debugger/:entrypointAddress', '/debugger', '/debugger.html']} component={Debugger} />
     <Route path={['/guarantee-generator', '/guarantee-generator.html']} component={Generator} />
     <Route path={['/contract-caller', '/contract-caller.html']} component={Caller} />
     <Route path="/" exact component={Debugger} />

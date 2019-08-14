@@ -59,16 +59,24 @@ class EntrypointViewer extends Component {
     });
   }
 
-  async _setupEntrypoint (entrypoint) {
+  async _setupEntrypoint (entrypoint, segment = undefined) {
     const libs = this._getLibs(entrypoint);
     const entrypointInst = libs.getEntrypoint(entrypoint.address);
     const directories = await entrypointInst.getSegments();
+    let selectedDirectory = segment || directories[0],
+      selectedDirectoryInst;
+    try {
+      selectedDirectoryInst = await entrypointInst.getSegmentDirectory(selectedDirectory);
+    } catch (e) {
+      selectedDirectory = directories[0];
+      selectedDirectoryInst = await entrypointInst.getSegmentDirectory(selectedDirectory);
+    }
     this.setState({
       libs,
       entrypointInst,
       directories,
-      selectedDirectoryInst: await entrypointInst.getSegmentDirectory(directories[0]),
-      selectedDirectory: directories[0],
+      selectedDirectory,
+      selectedDirectoryInst,
     });
   }
 
@@ -90,7 +98,7 @@ class EntrypointViewer extends Component {
         addressFilter: urlParams.organizationAddress,
       });
     }
-    await this._setupEntrypoint(entrypoint);
+    await this._setupEntrypoint(entrypoint, urlParams.segment);
   }
 
   async componentDidUpdate(prevProps) {
