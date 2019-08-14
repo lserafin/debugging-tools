@@ -157,7 +157,7 @@ class Item extends Component {
         <h4>
           {address}
           <span className="badge badge-pill badge-primary ml-1">
-            <a href={`${entrypoint}/${segment}/${address}`} target="_blank" rel="noopener noreferrer">Permalink</a>
+            <a href={`/debugger/${entrypoint}/${segment}/${address}`} target="_blank" rel="noopener noreferrer">Permalink</a>
           </span>
           <span className="badge badge-pill badge-primary ml-1"><EtherscanLink network={network} address={address}>Etherscan</EtherscanLink></span>
           {readApi && <span className="badge badge-pill badge-primary ml-1"><a href={`${readApi}/${address}`} target="_blank" rel="noopener noreferrer">Read API</a></span>}
