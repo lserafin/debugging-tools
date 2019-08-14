@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Form } from '@windingtree/wt-ui-react';
 import { WtJsLibs } from '@windingtree/wt-js-libs';
+import Loader from '../Loader';
 import SwarmAdapter from '@windingtree/off-chain-adapter-swarm';
 import HttpAdapter from '@windingtree/off-chain-adapter-http';
 import { SWARM_GATEWAY } from '../../constants';
@@ -12,7 +13,7 @@ class EntrypointViewer extends Component {
     entrypointInst: undefined,
     selectedDirectoryInst: undefined,
     selectedDirectory: '',
-    directories: [],
+    directories: undefined,
     addressFilter: '',
   };
 
@@ -100,7 +101,7 @@ class EntrypointViewer extends Component {
     this.setState({
       selectedDirectoryInst: undefined,
       selectedDirectory: '',
-      directories: [],
+      directories: undefined,
       addressFilter: '',
     });
     await this._setupEntrypoint(entrypoint);
@@ -109,6 +110,9 @@ class EntrypointViewer extends Component {
   render() {
     const { entrypoint } = this.props;
     const { directories, selectedDirectory, selectedDirectoryInst, addressFilter } = this.state;
+    if (!directories) {
+      return <Loader label={`Loading segment directories`} block={128} />
+    }
     const options = directories.map((l) => {
       return (<option key={l} value={l}>{l}</option>);
     });
