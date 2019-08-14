@@ -7,7 +7,7 @@ import entrypoints from './entrypoints';
 
 class Debugger extends Component {
   state = {
-    entrypoint: entrypoints.length && entrypoints[0],
+    entrypoint: undefined,
   };
 
   constructor(props) {
@@ -23,10 +23,11 @@ class Debugger extends Component {
   }
 
   componentDidMount () {
-    // TODO fix entrypoint setting
     const params = this.props.match.params;
     if (params.entrypointAddress) {
-      this.onEntrypointChange({target: {value: params.entrypoint}});
+      this.onEntrypointChange({target: {value: params.entrypointAddress}});
+    } else {
+      this.onEntrypointChange({target: {value: entrypoints.length && entrypoints[0].address}});
     }
   }
 
@@ -39,9 +40,9 @@ class Debugger extends Component {
     return (
       <div>
         <Header />
-        <div className="container mt-1">
+        {entrypoint && <div className="container mt-1">
           <Form.Group controlId="entrypoint">
-            <Form.Control as="select" onChange={this.onEntrypointChange} defaultValue={entrypoint.address}>
+            <Form.Control as="select" value={entrypoint.address} onChange={this.onEntrypointChange}>
               {options}
             </Form.Control>
           </Form.Group>
@@ -49,7 +50,7 @@ class Debugger extends Component {
             {! entrypoint && (<div className="alert alert-info">Select Winding Tree entrypoint first.</div>)}
             {entrypoint && <EntrypointViewer entrypoint={entrypoint} urlParams={match.params} />}
           </div>
-        </div>
+        </div>}
         <Footer />
       </div>
     );

@@ -38,7 +38,9 @@ class DirectoryView extends Component {
   async componentDidMount() {
     const { instance, segment } = this.props;
     this.setState({
-      config: segments[segment]
+      config: segments[segment],
+      items: undefined,
+      lifTokenAddress: undefined,
     });
     this.setState({
       items: await instance.getOrganizations(),
@@ -50,9 +52,7 @@ class DirectoryView extends Component {
     const { instance, segment } = this.props;
     if (prevProps.instance !== instance) {
       this.setState({
-        config: segments[segment]
-      });
-      this.setState({
+        config: segments[segment],
         items: undefined,
         lifTokenAddress: undefined,
       });

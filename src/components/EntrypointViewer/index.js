@@ -83,11 +83,10 @@ class EntrypointViewer extends Component {
   }
 
   async componentDidMount () {
-    // TODO fix org filter setting
     const { entrypoint, urlParams } = this.props;
     if (urlParams.organizationAddress) {
       this.setState({
-        addressFilter: urlParams.organization,
+        addressFilter: urlParams.organizationAddress,
       });
     }
     await this._setupEntrypoint(entrypoint);
@@ -116,7 +115,7 @@ class EntrypointViewer extends Component {
     return (
       <div>
         <Form.Group controlId="entrypoint">
-          <Form.Control as="select" onChange={this.onDirectoryChange} defaultValue={selectedDirectory}>
+          <Form.Control as="select" onChange={this.onDirectoryChange} value={selectedDirectory}>
               {options}
             </Form.Control>
           <Form.Control type="text"
