@@ -3,17 +3,17 @@ import { WtJsLibs } from '@windingtree/wt-js-libs';
 import SwarmAdapter from '@windingtree/off-chain-adapter-swarm';
 import HttpAdapter from '@windingtree/off-chain-adapter-http';
 import { SWARM_GATEWAY } from '../../constants';
-import IndexView from './IndexView';
+import DirectoryView from './DirectoryView';
 
-class IndexViewer extends Component {
+class EntrypointViewer extends Component {
    state = {
     directory: undefined,
   };
 
-  async _setDirectory (index) {
+  async _setDirectory (entrypoint) {
     const libs = WtJsLibs.createInstance({
       onChainDataOptions: {
-        provider: `https://${index.network}.infura.io/v3/${process.env.REACT_APP_INFURA_PROJECT_ID}`,
+        provider: `https://${entrypoint.network}.infura.io/v3/${process.env.REACT_APP_INFURA_PROJECT_ID}`,
       },
       offChainDataOptions: {
         adapters: {
@@ -34,32 +34,34 @@ class IndexViewer extends Component {
         },
       },
     });
-    const entrypoint = libs.getEntrypoint(index.entrypoint);
+    /*
+    const entrypoint = libs.getEntrypoint(entrypoint.address);
     this.setState({
-      directory: await entrypoint.getSegmentDirectory(index.segment),
+      directory: await entrypoint.getSegmentDirectory(entrypoint.segment),
     });
+    */
   }
 
   async componentWillMount() {
-    const { index } = this.props;
-    await this._setDirectory(index);
+    const { entrypoint } = this.props;
+    await this._setDirectory(entrypoint);
   }
 
   async componentDidUpdate(prevProps) {
-    const { index } = this.props;
-    if (index.address === prevProps.index.address) {
+    const { entrypoint } = this.props;
+    if (entrypoint.address === prevProps.entrypoint.address) {
       return;
     }
-    await this._setDirectory(index);
+    await this._setDirectory(entrypoint);
   }
 
   render() {
-    const { index, ethAddress } = this.props;
+    const { entrypoint, addressFilter } = this.props;
     const { directory } = this.state;
     return (<div>
-      {directory && <IndexView instance={directory} network={index.network} readApi={index.readApi} segment={index.segment} ethAddress={ethAddress} />}
+      {directory && <DirectoryView instance={directory} network={entrypoint.network} readApi={entrypoint.readApi} segment={entrypoint.segment} addressFilter={addressFilter} />}
     </div>);
   }
 }
 
-export default IndexViewer;
+export default EntrypointViewer;

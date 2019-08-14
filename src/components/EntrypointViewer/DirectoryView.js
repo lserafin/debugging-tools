@@ -18,7 +18,7 @@ const segments = {
   }
 };
 
-class IndexView extends Component {
+class DirectoryView extends Component {
   state = {
     config: undefined,
     items: undefined,
@@ -61,15 +61,15 @@ class IndexView extends Component {
 
   getItems() {
     const { nextItemPage, items, config } = this.state;
-    const { readApi, network, ethAddress } = this.props;
-    return items.filter(i => !ethAddress || i.address === ethAddress).slice(0, nextItemPage * PAGE_SIZE).map((i) => {
+    const { readApi, network, addressFilter } = this.props;
+    return items.filter(i => !addressFilter || i.address === addressFilter).slice(0, nextItemPage * PAGE_SIZE).map((i) => {
       const readApiUrl = readApi ? `${readApi}/${config.readApiSuffix}` : undefined;
       return <Item item={i} key={i.address} network={network} readApi={readApiUrl} />
     })
   }
 
   render() {
-    const { instance, network, ethAddress } = this.props;
+    const { instance, network, addressFilter } = this.props;
     const { items, lifTokenAddress, config, nextItemPage } = this.state;
     if (!items) {
       return <Loader label={`Loading items from ${instance.address}`} block={128} />
@@ -99,7 +99,7 @@ class IndexView extends Component {
         <Row>
           <Col>
           <p className="text-center mb-2">
-            {!ethAddress && <Button onClick={() => {
+            {!addressFilter && <Button onClick={() => {
               const { nextItemPage } = this.state;
               this.setState({
                 nextItemPage: nextItemPage + 1
@@ -113,4 +113,4 @@ class IndexView extends Component {
   }
 }
 
-export default IndexView;
+export default DirectoryView;
