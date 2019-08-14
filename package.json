@@ -21,27 +21,27 @@
   "dependencies": {
     "@windingtree/off-chain-adapter-http": "^4.0.0",
     "@windingtree/off-chain-adapter-swarm": "^5.0.0",
-    "@windingtree/wt-contracts": "^0.8.1",
+    "@windingtree/wt-contracts": "^0.8.2",
     "@windingtree/wt-js-libs": "^0.16.1",
     "@windingtree/wt-ui": "^1.5.1",
     "@windingtree/wt-ui-react": "^0.14.0",
     "eth": "^4.0.1",
     "ethjs": "^0.4.0",
     "moment": "^2.24.0",
-    "react": "^16.6.3",
+    "react": "^16.9.0",
     "react-clipboard.js": "^2.0.13",
-    "react-dom": "^16.6.3",
-    "react-hot-loader": "^4.12.9",
+    "react-dom": "^16.9.0",
+    "react-hot-loader": "^4.12.11",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "^3.0.1",
+    "react-scripts": "^3.1.1",
     "react-select": "^3.0.4",
-    "web3-eth": "^1.2.0",
-    "web3-utils": "^1.2.0"
+    "web3-eth": "^1.2.1",
+    "web3-utils": "^1.2.1"
   },
   "devDependencies": {
-    "gh-pages": "^2.0.1",
+    "gh-pages": "^2.1.1",
     "node-sass": "^4.11.0",
-    "webpack": "^4.29.6"
+    "webpack": "4.39.1"
   },
   "eslintConfig": {
     "extends": "react-app"
