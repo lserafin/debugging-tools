@@ -135,7 +135,7 @@ class Item extends Component {
   }
 
   render() {
-    const { item, network, readApi } = this.props;
+    const { item, network, segment, entrypoint, readApi } = this.props;
     const { resolved, address, owner, orgJsonUri, orgJsonHash, orgJsonHashValid,
       resolvedOrgJson, orgJson, orgJsonError } = this.state;
     if (!resolved) {
@@ -156,6 +156,9 @@ class Item extends Component {
       <Col className="mb-1">
         <h4>
           {address}
+          <span className="badge badge-pill badge-primary ml-1">
+            <a href={`${entrypoint}/${segment}/${address}`} target="_blank" rel="noopener noreferrer">Permalink</a>
+          </span>
           <span className="badge badge-pill badge-primary ml-1"><EtherscanLink network={network} address={address}>Etherscan</EtherscanLink></span>
           {readApi && <span className="badge badge-pill badge-primary ml-1"><a href={`${readApi}/${address}`} target="_blank" rel="noopener noreferrer">Read API</a></span>}
         </h4>

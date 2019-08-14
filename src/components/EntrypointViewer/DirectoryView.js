@@ -65,10 +65,10 @@ class DirectoryView extends Component {
 
   getItems() {
     const { nextItemPage, items, config } = this.state;
-    const { readApi, network, addressFilter } = this.props;
+    const { readApi, network, segment, entrypoint, addressFilter } = this.props;
     return items.filter(i => !addressFilter || i.address === addressFilter).slice(0, nextItemPage * PAGE_SIZE).map((i) => {
       const readApiUrl = readApi && config.readApiSuffix ? `${readApi}/${config.readApiSuffix}` : undefined;
-      return <Item item={i} key={i.address} network={network} readApi={readApiUrl} />
+      return <Item item={i} key={i.address} segment={segment} entrypoint={entrypoint} network={network} readApi={readApiUrl} />
     })
   }
 

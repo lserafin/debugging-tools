@@ -137,7 +137,14 @@ class EntrypointViewer extends Component {
                         onChange={(e) => { this.setState({ addressFilter: e.target.value }); }}/>
         </Form.Group>
         <div className="mt-2">
-          {selectedDirectory && <DirectoryView instance={selectedDirectoryInst} network={entrypoint.network} readApi={entrypoint.readApi} segment={selectedDirectory} addressFilter={addressFilter} />}
+          {selectedDirectory && <DirectoryView
+            instance={selectedDirectoryInst}
+            network={entrypoint.network}
+            entrypoint={entrypoint.address}
+            readApi={entrypoint.readApi}
+            segment={selectedDirectory}
+            addressFilter={addressFilter}
+          />}
         </div>
     </div>);
   }
