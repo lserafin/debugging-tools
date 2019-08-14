@@ -1,0 +1,13 @@
+[
+  {
+    "name": "Ropsten test environment",
+    "address": "0xa268937c2573e2AB274BF6d96e88FfE0827F0D4D",
+    "network": "ropsten",
+    "readApi": "https://madrid-api.windingtree.com"
+  },
+  {
+    "name": "Mainnet",
+    "address": "0xefC87a66bDD18F3953B31fF60F47708B7690022b",
+    "network": "mainnet"
+  }
+]

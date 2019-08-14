@@ -1,9 +1,0 @@
-[
-  {
-    "name": "Test environment - hotels",
-    "entrypoint": "0xa268937c2573e2AB274BF6d96e88FfE0827F0D4D",
-    "address": "0x2c29c421d7fd7be4cc2bfb6d1a44426e43021914",
-    "network": "ropsten",
-    "segment": "hotels"
-  }
-]

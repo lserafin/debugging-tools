@@ -15,10 +15,14 @@ const segments = {
     readApiSuffix: 'airlines',
     singular: 'airline',
     plural: 'airlines',
+  },
+  otas: {
+    singular: 'OTA',
+    plural: 'OTAs',
   }
 };
 
-class IndexView extends Component {
+class DirectoryView extends Component {
   state = {
     config: undefined,
     items: undefined,
@@ -34,7 +38,9 @@ class IndexView extends Component {
   async componentDidMount() {
     const { instance, segment } = this.props;
     this.setState({
-      config: segments[segment]
+      config: segments[segment],
+      items: undefined,
+      lifTokenAddress: undefined,
     });
     this.setState({
       items: await instance.getOrganizations(),
@@ -46,9 +52,7 @@ class IndexView extends Component {
     const { instance, segment } = this.props;
     if (prevProps.instance !== instance) {
       this.setState({
-        config: segments[segment]
-      });
-      this.setState({
+        config: segments[segment],
         items: undefined,
         lifTokenAddress: undefined,
       });
@@ -61,15 +65,15 @@ class IndexView extends Component {
 
   getItems() {
     const { nextItemPage, items, config } = this.state;
-    const { readApi, network, ethAddress } = this.props;
-    return items.filter(i => !ethAddress || i.address === ethAddress).slice(0, nextItemPage * PAGE_SIZE).map((i) => {
-      const readApiUrl = readApi ? `${readApi}/${config.readApiSuffix}` : undefined;
-      return <Item item={i} key={i.address} network={network} readApi={readApiUrl} />
+    const { readApi, network, segment, entrypoint, addressFilter } = this.props;
+    return items.filter(i => !addressFilter || i.address === addressFilter).slice(0, nextItemPage * PAGE_SIZE).map((i) => {
+      const readApiUrl = readApi && config.readApiSuffix ? `${readApi}/${config.readApiSuffix}` : undefined;
+      return <Item item={i} key={i.address} segment={segment} entrypoint={entrypoint} network={network} readApi={readApiUrl} />
     })
   }
 
   render() {
-    const { instance, network, ethAddress } = this.props;
+    const { instance, network, addressFilter } = this.props;
     const { items, lifTokenAddress, config, nextItemPage } = this.state;
     if (!items) {
       return <Loader label={`Loading items from ${instance.address}`} block={128} />
@@ -86,7 +90,7 @@ class IndexView extends Component {
                 <td><EtherscanLink network={network} address={lifTokenAddress}>{lifTokenAddress}</EtherscanLink></td>
               </tr>
               <tr>
-                <th>{config.singular} count</th>
+                <th>{config.singular.substr(0, 1).toUpperCase()}{config.singular.substr(1)} count</th>
                 <td>{items.length}</td>
               </tr>
             </tbody>
@@ -99,7 +103,7 @@ class IndexView extends Component {
         <Row>
           <Col>
           <p className="text-center mb-2">
-            {!ethAddress && <Button onClick={() => {
+            {!addressFilter && <Button onClick={() => {
               const { nextItemPage } = this.state;
               this.setState({
                 nextItemPage: nextItemPage + 1
@@ -113,4 +117,4 @@ class IndexView extends Component {
   }
 }
 
-export default IndexView;
+export default DirectoryView;
