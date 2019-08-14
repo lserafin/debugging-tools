@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Form } from '@windingtree/wt-ui-react';
 import { WtJsLibs } from '@windingtree/wt-js-libs';
 import SwarmAdapter from '@windingtree/off-chain-adapter-swarm';
 import HttpAdapter from '@windingtree/off-chain-adapter-http';
@@ -7,11 +8,32 @@ import DirectoryView from './DirectoryView';
 
 class EntrypointViewer extends Component {
    state = {
-    directory: undefined,
+    libs: undefined,
+    entrypointInst: undefined,
+    selectedDirectoryInst: undefined,
+    selectedDirectory: '',
+    directories: [],
+    addressFilter: '',
   };
 
-  async _setDirectory (entrypoint) {
-    const libs = WtJsLibs.createInstance({
+  constructor(props) {
+    super(props);
+    this.onDirectoryChange = this.onDirectoryChange.bind(this);
+  }
+
+  _getLibs (entrypoint) {
+    const { libs } = this.state;
+    if (!entrypoint.network) {
+      return libs;
+    }
+    if (libs &&
+      libs.options &&
+      libs.options.onChainDataOptions &&
+      libs.options.onChainDataOptions.provider &&
+      libs.options.onChainDataOptions.provider.indexOf(entrypoint.network) > -1) {
+      return libs;
+    }
+    return WtJsLibs.createInstance({
       onChainDataOptions: {
         provider: `https://${entrypoint.network}.infura.io/v3/${process.env.REACT_APP_INFURA_PROJECT_ID}`,
       },
@@ -34,17 +56,41 @@ class EntrypointViewer extends Component {
         },
       },
     });
-    /*
-    const entrypoint = libs.getEntrypoint(entrypoint.address);
-    this.setState({
-      directory: await entrypoint.getSegmentDirectory(entrypoint.segment),
-    });
-    */
   }
 
-  async componentWillMount() {
-    const { entrypoint } = this.props;
-    await this._setDirectory(entrypoint);
+  async _setupEntrypoint (entrypoint) {
+    const libs = this._getLibs(entrypoint);
+    const entrypointInst = libs.getEntrypoint(entrypoint.address);
+    const directories = await entrypointInst.getSegments();
+    this.setState({
+      libs,
+      entrypointInst,
+      directories,
+      selectedDirectoryInst: await entrypointInst.getSegmentDirectory(directories[0]),
+      selectedDirectory: directories[0],
+    });
+  }
+
+  async onDirectoryChange (e) {
+    const selectedSegmentName = e.target.value;
+    if (selectedSegmentName) {
+      const { entrypointInst } = this.state;
+      this.setState({
+        selectedDirectoryInst: await entrypointInst.getSegmentDirectory(selectedSegmentName),
+        selectedDirectory: selectedSegmentName,
+      });
+    }
+  }
+
+  async componentDidMount () {
+    // TODO fix org filter setting
+    const { entrypoint, urlParams } = this.props;
+    if (urlParams.organizationAddress) {
+      this.setState({
+        addressFilter: urlParams.organization,
+      });
+    }
+    await this._setupEntrypoint(entrypoint);
   }
 
   async componentDidUpdate(prevProps) {
@@ -52,14 +98,36 @@ class EntrypointViewer extends Component {
     if (entrypoint.address === prevProps.entrypoint.address) {
       return;
     }
-    await this._setDirectory(entrypoint);
+    this.setState({
+      selectedDirectoryInst: undefined,
+      selectedDirectory: '',
+      directories: [],
+      addressFilter: '',
+    });
+    await this._setupEntrypoint(entrypoint);
   }
 
   render() {
-    const { entrypoint, addressFilter } = this.props;
-    const { directory } = this.state;
-    return (<div>
-      {directory && <DirectoryView instance={directory} network={entrypoint.network} readApi={entrypoint.readApi} segment={entrypoint.segment} addressFilter={addressFilter} />}
+    const { entrypoint } = this.props;
+    const { directories, selectedDirectory, selectedDirectoryInst, addressFilter } = this.state;
+    const options = directories.map((l) => {
+      return (<option key={l} value={l}>{l}</option>);
+    });
+    return (
+      <div>
+        <Form.Group controlId="entrypoint">
+          <Form.Control as="select" onChange={this.onDirectoryChange} defaultValue={selectedDirectory}>
+              {options}
+            </Form.Control>
+          <Form.Control type="text"
+                        placeholder="Optionally filter by organization address"
+                        className="form-control"
+                        value={addressFilter}
+                        onChange={(e) => { this.setState({ addressFilter: e.target.value }); }}/>
+        </Form.Group>
+        <div className="mt-2">
+          {selectedDirectory && <DirectoryView instance={selectedDirectoryInst} network={entrypoint.network} readApi={entrypoint.readApi} segment={selectedDirectory} addressFilter={addressFilter} />}
+        </div>
     </div>);
   }
 }

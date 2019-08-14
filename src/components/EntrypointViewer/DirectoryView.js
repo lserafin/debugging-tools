@@ -15,6 +15,10 @@ const segments = {
     readApiSuffix: 'airlines',
     singular: 'airline',
     plural: 'airlines',
+  },
+  otas: {
+    singular: 'OTA',
+    plural: 'OTAs',
   }
 };
 
@@ -63,7 +67,7 @@ class DirectoryView extends Component {
     const { nextItemPage, items, config } = this.state;
     const { readApi, network, addressFilter } = this.props;
     return items.filter(i => !addressFilter || i.address === addressFilter).slice(0, nextItemPage * PAGE_SIZE).map((i) => {
-      const readApiUrl = readApi ? `${readApi}/${config.readApiSuffix}` : undefined;
+      const readApiUrl = readApi && config.readApiSuffix ? `${readApi}/${config.readApiSuffix}` : undefined;
       return <Item item={i} key={i.address} network={network} readApi={readApiUrl} />
     })
   }
@@ -86,7 +90,7 @@ class DirectoryView extends Component {
                 <td><EtherscanLink network={network} address={lifTokenAddress}>{lifTokenAddress}</EtherscanLink></td>
               </tr>
               <tr>
-                <th>{config.singular} count</th>
+                <th>{config.singular.substr(0, 1).toUpperCase()}{config.singular.substr(1)} count</th>
                 <td>{items.length}</td>
               </tr>
             </tbody>

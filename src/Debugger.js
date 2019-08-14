@@ -8,7 +8,6 @@ import entrypoints from './entrypoints';
 class Debugger extends Component {
   state = {
     entrypoint: entrypoints.length && entrypoints[0],
-    addressFilter: '',
   };
 
   constructor(props) {
@@ -23,20 +22,17 @@ class Debugger extends Component {
     });
   }
 
-  componentWillMount () {
+  componentDidMount () {
+    // TODO fix entrypoint setting
     const params = this.props.match.params;
-    if (params.organizationAddress) {
-      this.setState({
-        addressFilter: params.organization,
-      });
-    }
     if (params.entrypointAddress) {
       this.onEntrypointChange({target: {value: params.entrypoint}});
     }
   }
 
   render() {
-    const { entrypoint, addressFilter } = this.state;
+    const { entrypoint } = this.state;
+    const { match } = this.props;
     const options = entrypoints.map((l) => {
       return (<option key={l.name} value={l.address}>{l.name} ({l.address})</option>);
     });
@@ -48,15 +44,10 @@ class Debugger extends Component {
             <Form.Control as="select" onChange={this.onEntrypointChange} defaultValue={entrypoint.address}>
               {options}
             </Form.Control>
-            <Form.Control type="text"
-                          placeholder="Optionally filter by organization address"
-                          className="form-control"
-                          value={addressFilter}
-                          onChange={(e) => { this.setState({ addressFilter: e.target.value }); }}/>
           </Form.Group>
           <div className="mt-2">
             {! entrypoint && (<div className="alert alert-info">Select Winding Tree entrypoint first.</div>)}
-            {entrypoint && <EntrypointViewer entrypoint={entrypoint} addressFilter={addressFilter} />}
+            {entrypoint && <EntrypointViewer entrypoint={entrypoint} urlParams={match.params} />}
           </div>
         </div>
         <Footer />

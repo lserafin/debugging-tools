@@ -2,7 +2,8 @@
   {
     "name": "Ropsten test environment",
     "address": "0xa268937c2573e2AB274BF6d96e88FfE0827F0D4D",
-    "network": "ropsten"
+    "network": "ropsten",
+    "readApi": "https://madrid-api.windingtree.com"
   },
   {
     "name": "Mainnet",
