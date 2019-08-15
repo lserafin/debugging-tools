@@ -1,7 +1,6 @@
 import React from 'react';
 import Select from 'react-select'
 import Eth from 'ethjs';
-import Web3Eth from 'web3-eth';
 import { Button, Form } from '@windingtree/wt-ui-react';
 import { MetamaskSignInGateway } from '../MetamaskGateway';
 import './styles.css';
@@ -13,6 +12,23 @@ const CONTRACTS_TO_SHOW = [
   './WindingTreeEntrypoint.json',
 ];
 const DEFAULT_CONTRACT_INDEX = 3; // Entrypoint
+
+const translateNetwork = (networkId) => {
+  switch (networkId) {
+    case "1":
+      return "Main";
+    case "2":
+     return "Morden";
+    case "3":
+      return "Ropsten";
+    case "4":
+      return "Rinkeby";
+    case "42":
+      return "Kovan";
+    default:
+      return "Unknown";
+  }
+}
 
 class ContractCaller extends React.Component {
   state = {
@@ -29,7 +45,6 @@ class ContractCaller extends React.Component {
   constructor (props) {
     super(props);
     this.callSmartContractMethod = this.callSmartContractMethod.bind(this);
-    this.web3Eth = new Web3Eth(window.ethereum);
   }
 
   async componentWillMount() {
@@ -142,6 +157,12 @@ class ContractCaller extends React.Component {
         </textarea>
         <br />
         <MetamaskSignInGateway>
+          <h3>
+            Network:{` ${translateNetwork(window.ethereum.networkVersion)} `}
+            <small>
+              You can change the network only in Metamask.
+            </small>
+          </h3>
           <h3>
             Functions{' '}
             <small>
