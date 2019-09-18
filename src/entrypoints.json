@@ -6,8 +6,13 @@
     "readApi": "https://madrid-api.windingtree.com"
   },
   {
+    "name": "Mainnet Playground",
+    "address": "0xC974dC6eFE2EFAD463DaA97f1f4a88e1c9d62E38",
+    "network": "mainnet"
+  },
+  {
     "name": "Mainnet",
-    "address": "0xefC87a66bDD18F3953B31fF60F47708B7690022b",
+    "address": "0xDDFD213784A60B1e0215D2d07d71999cD2A40D34",
     "network": "mainnet"
   }
 ]
