@@ -78,6 +78,7 @@ class Item extends Component {
     orgJsonUri: undefined,
     orgJsonHash: undefined,
     orgJsonHashValid: undefined,
+    orgJsonHashExpected: undefined,
     resolvedOrgJson: false,
     orgJson: undefined,
     orgJsonError: undefined
@@ -106,8 +107,11 @@ class Item extends Component {
       try {
         const orgJson = await (await item.orgJson).contents;
         let isOrgJsonHashValid = false;
+        let orgJsonHashExpected = undefined;
         try {
           isOrgJsonHashValid = await item.validateOrgJsonHash();
+          const rawContents = await (await item.orgJson).downloadRaw()
+          orgJsonHashExpected = item.web3Utils.getSoliditySha3Hash(rawContents);
         } catch (e) {
           // silent pass
         }
@@ -116,6 +120,7 @@ class Item extends Component {
             orgJson: orgJson,
             orgJsonHashValid: isOrgJsonHashValid,
             resolvedOrgJson: true,
+            orgJsonHashExpected: orgJsonHashExpected,
             orgJsonError: undefined,
           })
         }
@@ -137,7 +142,7 @@ class Item extends Component {
   render() {
     const { item, network, segment, entrypoint, readApi } = this.props;
     const { resolved, address, owner, orgJsonUri, orgJsonHash, orgJsonHashValid,
-      resolvedOrgJson, orgJson, orgJsonError } = this.state;
+      orgJsonHashExpected, resolvedOrgJson, orgJson, orgJsonError } = this.state;
     if (!resolved) {
       return <Row>
         <Col>
@@ -180,7 +185,7 @@ class Item extends Component {
               {orgJsonHash}
               {orgJsonHashValid ?
                 <i className="mdi mdi-24px mdi-check" style={{color: 'green'}} /> :
-                <i className="mdi mdi-24px mdi-exclamation" style={{color: 'red'}} />
+                <i className="mdi mdi-24px mdi-exclamation" style={{color: 'red'}} title={`Expected ${orgJsonHashExpected}, maybe check your whitespace?`} />
               }</td>
             </tr>
             <tr>
